@@ -30,4 +30,14 @@ describe("Test collectionFactory", () => {
     const assertedvalue = await collectionFactory.getCollection(0);
     assert.equal(currentowner[0], assertedvalue[0]);
   });
+
+  it("testing ownership of the contracts", async () => {
+    const name = "newNftContract";
+    const symbol = "MYnft";
+    await collectionFactory.createCollection(name, symbol);
+
+    nftcontract = await ethers.getContract(["newNftContract"]);
+    currentowner = await nftcontract.owner();
+    assert.equal(currentowner, deployer);
+  });
 });
