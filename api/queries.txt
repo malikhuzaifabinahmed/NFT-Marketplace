@@ -1,0 +1,104 @@
+tofetch nfts of a specific owner
+query GetERC721ContractsByAddress {
+  account(id: "0xe3712b61905B45fA357876309C14a028a5f1C56E") {
+    ERC721tokens {
+      identifier
+      contract {
+        id
+        name
+        symbol
+      }
+    }
+  }
+}
+
+
+
+to fetc listing of a user
+query onsale {
+  listings(orderBy: eventcount, orderDirection: desc, where: {approval:true  owner : "0xe3712b61905b45fa357876309c14a028a5f1c56e" }) {
+    updatedAt
+    tokenId
+    owner
+    listingPrice
+    id
+    createdAt
+    collectionAddress
+    approval
+    eventcount
+  }
+}
+
+to fetch top listings
+query onsale {
+  listings(orderBy: eventcount, orderDirection: desc, where: {approval:true   }) {
+    updatedAt
+    tokenId
+    owner
+    listingPrice
+    id
+    createdAt
+    collectionAddress
+    approval
+    eventcount
+  }
+}
+
+to fetch mint event _details
+query GetEventCreatorsByTransfer {
+ 
+     erc721Transfers (where : { to:  "0xe3712b61905B45fA357876309C14a028a5f1C56E", from:  "0x0000000000000000000000000000000000000000" } ) {
+    id
+    emitter {
+      id
+    }
+    transaction {
+      id
+      timestamp
+    }
+    contract {
+      id
+      name
+      symbol
+      asAccount {
+        id
+        asERC721 {
+          id
+          name
+          symbol
+          asAccount {
+            id
+          }
+        }
+      }
+    }
+  }
+}
+
+query GetContractCreators {
+  erc721Operators(where: {owner: "0xB11C9353de0Cc07a21f524C9c88217940b00579d"}) {
+    id
+    approved
+    operator {
+      ERC721operatorOperator {
+        contract {
+          name
+          id
+          tokens(where: {owner: "0xB11C9353de0Cc07a21f524C9c88217940b00579d"}) {
+            identifier
+            uri
+          }
+        }
+      }
+    }
+  }
+}
+
+search for a specific name of collection 
+query MyQuery {
+  erc721Contracts(where: {name_contains_nocase: "this is test collection"}) {
+    id
+    name
+    symbol
+  }
+}
